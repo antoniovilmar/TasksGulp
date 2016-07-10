@@ -1,6 +1,15 @@
 var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
-    clean = require('gulp-clean');
+    clean = require('gulp-clean'),
+    concat = require('gulp-concat'),
+    htmlReplace = require('gulp-html-replace'),
+    uglify = require('gulp-uglify'),
+    usemin = require('gulp-usemin'),
+    cssmin = require('gulp-cssmin');
+
+gulp.task('default', ['copy'], function(){
+    gulp.start('build-img', 'build-html-js-css');
+});
 
 gulp.task('copy', ['clean'], function(){
 
@@ -16,8 +25,17 @@ gulp.task('clean', function(){
 
 });
 
-gulp.task('build-img', ['copy'], function(){
+gulp.task('build-img', function(){
     gulp.src('dist/img/**/*')
         .pipe(imagemin())
         .pipe(gulp.dest('dist/img'));
+});
+
+gulp.task('build-html-js-css', function(){
+    return gulp.src('dist/**/*.html')
+        .pipe(usemin({
+            js : [uglify],
+            css : [cssmin]
+        }))
+        .pipe(gulp.dest('dist'));
 });
