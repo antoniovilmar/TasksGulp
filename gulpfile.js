@@ -10,6 +10,7 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     jshintStylish = require('jshint-stylish'),
     cssLint = require('gulp-csslint');
+    autoPrefixer = require('gulp-autoprefixer');
 
 gulp.task('default', ['copy'], function(){
     gulp.start('build-img', 'build-html-js-css');
@@ -39,7 +40,7 @@ gulp.task('build-html-js-css', function(){
     return gulp.src('dist/**/*.html')
         .pipe(usemin({
             js : [uglify],
-            css : [cssmin]
+            css : [autoPrefixer, cssmin]
         }))
         .pipe(gulp.dest('dist'));
 });
