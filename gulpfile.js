@@ -5,7 +5,8 @@ var gulp = require('gulp'),
     htmlReplace = require('gulp-html-replace'),
     uglify = require('gulp-uglify'),
     usemin = require('gulp-usemin'),
-    cssmin = require('gulp-cssmin');
+    cssmin = require('gulp-cssmin'),
+    browserSync = require('browser-sync');
 
 gulp.task('default', ['copy'], function(){
     gulp.start('build-img', 'build-html-js-css');
@@ -38,4 +39,13 @@ gulp.task('build-html-js-css', function(){
             css : [cssmin]
         }))
         .pipe(gulp.dest('dist'));
+});
+
+gulp.task('server', function() {
+    browserSync.init({
+        server: {
+            baseDir: 'src'
+        }
+    });
+    gulp.watch('src/**/*').on('change', browserSync.reload);
 });
